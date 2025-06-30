@@ -1,6 +1,8 @@
 package br.gov.fatec.itu.telefonica.agenda.projetofinaljavaspring.services;
 
+import java.util.Comparator;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -18,6 +20,31 @@ public class ContatoService {
     public List<Contato> getAll(){
         return repository.findAll();
     }
+
+    public List<Contato> filtroContatos(String name, Boolean favorito, Boolean ordenarAZ) {
+    List<Contato> contatos = repository.findAll();
+
+    if (name != null && !name.isEmpty()) {
+        contatos = contatos.stream()
+            .filter(c -> c.getName().toLowerCase().contains(name.toLowerCase()))
+            .collect(Collectors.toList());
+    }
+
+    if (Boolean.TRUE.equals(favorito)) {
+        contatos = contatos.stream()
+            .filter(Contato::getFavorito)
+            .collect(Collectors.toList());
+    }
+
+    if (Boolean.TRUE.equals(ordenarAZ)) {
+        contatos = contatos.stream()
+            .sorted(Comparator.comparing(Contato::getName, String.CASE_INSENSITIVE_ORDER))
+            .collect(Collectors.toList());
+    }
+
+    return contatos;
+    }
+    
 
     public Contato save(Contato contato){
         return repository.save(contato);

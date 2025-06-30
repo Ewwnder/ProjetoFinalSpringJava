@@ -1,6 +1,7 @@
 package br.gov.fatec.itu.telefonica.agenda.projetofinaljavaspring.entities;
 
 import java.io.Serializable;
+import java.sql.Date;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -25,7 +26,7 @@ public class Contato implements Serializable{
     private String grupo;
     private String informacao;
     private Boolean favorito;
-    private String dataAniversario;
+    private Date dataAniversario;
     
     public long getId() {
         return id;
@@ -81,10 +82,10 @@ public class Contato implements Serializable{
     public void setFavorito(Boolean favorito) {
         this.favorito = favorito;
     }
-    public String getDataAniversario() {
+    public Date getDataAniversario() {
         return dataAniversario;
     }
-    public void setDataAniversario(String dataAniversario) {
+    public void setDataAniversario(Date dataAniversario) {
         this.dataAniversario = dataAniversario;
     }
 

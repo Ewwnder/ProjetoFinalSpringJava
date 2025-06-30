@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import br.gov.fatec.itu.telefonica.agenda.projetofinaljavaspring.entities.Contato;
@@ -29,6 +30,15 @@ public class ContatoController {
     @GetMapping
     public ResponseEntity<List<Contato>> getAll(){
         return ResponseEntity.ok(service.getAll());
+    }
+
+    @GetMapping("/filtro")
+    public ResponseEntity<List<Contato>> filtroContatos(
+    @RequestParam(required = false) String valor,
+    @RequestParam(required = false) String name,
+    @RequestParam(required = false) Boolean favorito,
+    @RequestParam(required = false) Boolean ordenarAZ){
+        return ResponseEntity.ok(service.filtroContatos(name, favorito, ordenarAZ));
     }
 
     @PostMapping
