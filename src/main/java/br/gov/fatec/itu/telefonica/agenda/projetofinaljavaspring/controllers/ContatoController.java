@@ -28,18 +28,21 @@ public class ContatoController {
     private ContatoService service;
 
     @GetMapping
-    public ResponseEntity<List<Contato>> getAll(){
+    public ResponseEntity<List<Contato>> getContatos(
+    @RequestParam(required = false) String name,
+    @RequestParam(required = false) String busca,
+    @RequestParam(required = false) Boolean favorito,
+    @RequestParam(required = false) Boolean ordenarAZ) {
+
+    boolean semFiltro = (name == null && busca == null && favorito == null && ordenarAZ == null);
+
+    if (semFiltro) {
         return ResponseEntity.ok(service.getAll());
     }
 
-    @GetMapping("/filtro")
-    public ResponseEntity<List<Contato>> filtroContatos(
-    @RequestParam(required = false) String valor,
-    @RequestParam(required = false) String name,
-    @RequestParam(required = false) Boolean favorito,
-    @RequestParam(required = false) Boolean ordenarAZ){
-        return ResponseEntity.ok(service.filtroContatos(name, favorito, ordenarAZ));
+    return ResponseEntity.ok(service.filtroContatos(name, busca, favorito, ordenarAZ));
     }
+
 
     @PostMapping
     public ResponseEntity<Contato> save(@RequestBody Contato contato){

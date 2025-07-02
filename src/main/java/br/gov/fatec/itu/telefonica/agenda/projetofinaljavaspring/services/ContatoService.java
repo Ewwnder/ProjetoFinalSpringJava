@@ -21,13 +21,27 @@ public class ContatoService {
         return repository.findAll();
     }
 
-    public List<Contato> filtroContatos(String name, Boolean favorito, Boolean ordenarAZ) {
+    public List<Contato> filtroContatos(String tipo, String busca,  Boolean favorito, Boolean ordenarAZ) {
     List<Contato> contatos = repository.findAll();
 
-    if (name != null && !name.isEmpty()) {
-        contatos = contatos.stream()
-            .filter(c -> c.getName().toLowerCase().contains(name.toLowerCase()))
-            .collect(Collectors.toList());
+    if (tipo!=null && !tipo.isEmpty()){
+        switch (busca!=null ? busca.toLowerCase() : "name") {
+            case "number":
+                contatos = contatos.stream()
+                        .filter(c -> c.getNumber() != null && c.getNumber().toLowerCase().contains(tipo.toLowerCase()))
+                        .collect(Collectors.toList());
+                break;
+             case "email":
+                contatos = contatos.stream()
+                    .filter(c -> c.getEmail() != null && c.getEmail().toLowerCase().contains(tipo.toLowerCase()))
+                    .collect(Collectors.toList());
+                break;
+            default:
+                contatos = contatos.stream()
+                    .filter(c -> c.getName() != null && c.getName().toLowerCase().contains(tipo.toLowerCase()))
+                    .collect(Collectors.toList());
+                
+        }
     }
 
     if (Boolean.TRUE.equals(favorito)) {
